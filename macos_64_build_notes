@@ -1,0 +1,38 @@
+GitHub checkout from https://github.com/jwdj/EasyABC (commit 6aca224f9b80312299fc195fb742ec4eab0441d8)
+
+Python 3 from HomeBrew Python 3.7.4 /usr/local/Cellar/python/3.7.4 (3,936 files, 61.1MB) *
+  Poured from bottle on 2019-08-11 at 19:34:28
+
+Added wxpython and py2app using pip
+
+Xcode Version 11.0 (11A420a)
+
+abc2midi/midi2abc/abc2abc from https://sourceforge.net/projects/abcplus/files/abcmidi-20190811-osx.zip
+
+abcm2ps from https://sourceforge.net/projects/abcplus/files/abcm2ps/abcm2ps-8.14.5-osx.zip
+
+nwc2xml from https://code.google.com/archive/p/nwc2xml/downloads (nwc2xml-osx-1.5.0.5.zip)
+
+Need to remove 'email' from 'excludes' list in setup.py because urllib 
+
+$ bash build.sh
+
+Problem running the result: see
+https://bitbucket.org/ronaldoussoren/py2app/issues/252/py2app-creates-broken-bundles-with
+https://bitbucket.org/ronaldoussoren/py2app/issues/254/traceback-reason-image-not-found-on-mac
+
+Workaround 1:
+
+cd dist/EasyABC.app/Contents/Resources/lib/python3.7/lib-dynload/wx/
+ln -s ../../../../../Frameworks/libwx_osx_cocoau_core-3.0.0.4.0.dylib libwx_osx_cocoau_core-3.0.0.4.0.dylib
+ln -s ../../../../../Frameworks/libwx_baseu_net-3.0.0.4.0.dylib libwx_baseu_net-3.0.0.4.0.dylib
+ln -s ../../../../../Frameworks/libwx_baseu-3.0.0.4.0.dylib libwx_baseu-3.0.0.4.0.dylib
+ln -s ../../../../../Frameworks/libwx_osx_cocoau_html-3.0.0.4.0.dylib libwx_osx_cocoau_html-3.0.0.4.0.dylib
+ln -s ../../../../../Frameworks/libwx_osx_cocoau_stc-3.0.0.4.0.dylib libwx_osx_cocoau_stc-3.0.0.4.0.dylib
+ln -s ../../../../../Frameworks/libwx_osx_cocoau_media-3.0.0.4.0.dylib libwx_osx_cocoau_media-3.0.0.4.0.dylib
+
+Workaround 2:
+
+Add --packages=wx to build (but makes the result larger)
+
+Either way seems to hang si=ometime after "Warning: pygame/pypm module not found. Recording midi will not work"
