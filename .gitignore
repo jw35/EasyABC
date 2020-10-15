@@ -60,3 +60,11 @@ dist
 .vscode
 *.spec
 *.sf2
+
+# Added JW 2020-10-15 to support MacOS build
+bin/abc2abc
+bin/abc2midi
+bin/abcm2ps
+bin/midi2abc
+bin/nwc2xml
+venv/
