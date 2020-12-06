@@ -1,17 +1,63 @@
-GitHub checkout from https://github.com/jwdj/EasyABC (commit 6aca224f9b80312299fc195fb742ec4eab0441d8)
+GitHub checkout from https://github.com/jwdj/EasyABC
 
-Python 3 from HomeBrew Python 3.7.4 /usr/local/Cellar/python/3.7.4 (3,936 files, 61.1MB) *
-  Poured from bottle on 2019-08-11 at 19:34:28
+Python 3 from HomeBrew Python 3.8.5
+
+Virtual env ./venv
 
 Added wxpython and py2app using pip
 
-Xcode Version 11.0 (11A420a)
+Will run with python3 easy_abc.py
 
-abc2midi/midi2abc/abc2abc from https://sourceforge.net/projects/abcplus/files/abcmidi-20190811-osx.zip
 
-abcm2ps from https://sourceforge.net/projects/abcplus/files/abcm2ps/abcm2ps-8.14.5-osx.zip
 
-nwc2xml from https://code.google.com/archive/p/nwc2xml/downloads (nwc2xml-osx-1.5.0.5.zip)
+
+
+Xcode Version 11.3.1
+
+Utility programs via The ABC Plus Project http://abcplus.sourceforge.net/ :
+
+   abc2midi/midi2abc/abc2abc from https://sourceforge.net/projects/abcplus/files/abcMIDI/abcmidi-20201012-osx.zip
+
+   abcm2ps from https://sourceforge.net/projects/abcplus/files/abcm2ps/abcm2ps-8.14.10-osx.zip/download
+
+   nwc2xml from https://code.google.com/archive/p/nwc2xml/downloads (nwc2xml-osx-1.5.0.5.zip)
+
+Pango, or not Pango?
+
+Starts up from the command line.
+
+abcm2ps (and probably the rest) fail to run because "“abcm2ps” cannot be opened because the developer cannot be verified." Explicitly opening them in the Finder sorts this,
+but how do we deal with this for general users?
+
+Reports "Warning: pygame/pypm module not found. Recording midi will not work"
+
+Loads ABC file. Fails to play it with expected 'Unsupported format message.'
+
+Throws various "wx._core.wxAssertionError: C++ assertion "retval != __null" failed at /Users/robind/projects/bb2/dist-osx-py38/build/ext/wxWidgets/src/osx/carbon/graphics.cpp(116) in wxMacCreateCGColor():" errors.
+
+No music display.
+
+  Warning: Traceback (most recent call last):
+    File "/Users/jon/000-jons-stuff/Music/ABC/EasyABC/EasyABC-github/music_score_panel.py", line 289, in Draw
+    self.renderer.draw(page=self.current_page, clear_background=False, dc=dc)
+    File "/Users/jon/000-jons-stuff/Music/ABC/EasyABC/EasyABC-github/svgrenderer.py", line 419, in draw
+    self.draw_svg_element(page, gc, page.root_group, False, page.base_color, {})
+    File "/Users/jon/000-jons-stuff/Music/ABC/EasyABC/EasyABC-github/svgrenderer.py", line 701, in draw_svg_element
+    self.draw_svg_element(page, dc, child, highlight, current_color, current_style.copy())
+    File "/Users/jon/000-jons-stuff/Music/ABC/EasyABC/EasyABC-github/svgrenderer.py", line 725, in draw_svg_element
+    self.set_stroke(dc, stroke, float(attr.get('stroke-width', 1.0)), attr.get('stroke-linecap', 'butt'), attr.get('stroke-dasharray', None))
+    File "/Users/jon/000-jons-stuff/Music/ABC/EasyABC/EasyABC-github/svgrenderer.py", line 600, in set_stroke
+    pen = self.renderer.CreatePen(wx.GraphicsPenInfo())
+  wx._core.wxAssertionError: C++ assertion "retval != __null" failed at /Users/robind/projects/bb2/dist-osx-py38/build/ext/wxWidgets/src/osx/carbon/graphics.cpp(116) in wxMacCreateCGColor():
+
+
+
+
+
+
+
+
+
 
 Need to remove 'email' from 'excludes' list in setup.py because urllib 
 
