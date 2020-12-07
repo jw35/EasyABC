@@ -36,6 +36,8 @@ if platform.system() == 'Windows':
     envpath = os.environ.get('PATH', '')
     os.environ['PATH'] = fluidsynth_lib_path + ';' + envpath
     lib = 'libfluidsynth-2.dll'
+elif platform.system() == 'Darwin':
+    lib = 'libfluidsynth.2.1.2.dylib'
 else:
     lib = 'libfluidsynth.so.2'
 
@@ -43,6 +45,92 @@ try:
     F = CDLL(lib)
 except:
     raise ImportError("Couldn't find the FluidSynth library.")
+
+# On MacOS we need to define arguement types, mainly because
+# 'int' and pointer aren't the same size
+if platform.system() == 'Darwin':
+
+    from ctypes import c_void_p
+
+    F.new_fluid_settings.restype = c_void_p
+
+    F.fluid_settings_setnum.argtypes = [c_void_p, c_char_p, c_double]
+    F.fluid_settings_setint.argtypes = [c_void_p, c_char_p, c_int]
+    F.fluid_settings_setstr.argtypes = [c_void_p, c_char_p, c_char_p]
+
+    F.new_fluid_synth.argtypes = [c_void_p]
+    F.new_fluid_synth.restype = c_void_p
+
+    F.new_fluid_audio_driver.argtypes = [c_void_p, c_void_p]
+    F.new_fluid_audio_driver.restype = c_void_p
+
+    F.fluid_settings_getint.argtypes = [c_void_p, c_char_p, c_void_p]
+
+    F.delete_fluid_audio_driver.argtypes = [c_void_p]
+
+    F.delete_fluid_synth.argtypes = [c_void_p]
+
+    F.delete_fluid_settings.argtypes = [c_void_p]
+
+    F.fluid_synth_sfload.argtypes = [c_void_p, c_char_p, c_int]
+    F.fluid_synth_sfload.restype = c_int
+
+    F.fluid_synth_sfunload.argtypes = [c_void_p, c_int, c_int]
+    F.fluid_synth_sfunload.restype = c_int
+
+    F.fluid_synth_program_select.argtypes = [c_void_p, c_int, c_int, c_int, c_int]
+    F.fluid_synth_program_select.restype = c_int
+
+    F.fluid_synth_set_reverb.argtypes = [c_void_p, c_double, c_double, c_double, c_double]
+    F.fluid_synth_set_reverb.restype = c_int
+
+    F.fluid_synth_set_chorus.argtypes = [c_void_p, c_double, c_double, c_double, c_int]
+    F.fluid_synth_set_chorus.restype = c_int
+
+    F.fluid_synth_count_midi_channels.argtypes = [c_void_p]
+    F.fluid_synth_count_midi_channels.restype = c_int
+
+    F.fluid_synth_cc.argtypes = [c_void_p, c_int, c_int, c_int]
+
+    F.new_fluid_player.argtypes = [c_void_p]
+    F.new_fluid_player.restype = c_void_p
+
+    F.fluid_player_add.argtypes = [c_void_p, c_char_p]
+
+    F.fluid_player_play.argtypes = [c_void_p]
+
+    F.fluid_player_stop.argtypes = [c_void_p]
+
+    F.fluid_synth_all_notes_off.argtypes = [c_void_p, c_int]
+
+    F.fluid_player_join.argtypes = [c_void_p]
+
+    F.fluid_player_get_status.argtypes = [c_void_p]
+    F.fluid_player_get_status.restype = c_int
+
+    F.fluid_player_get_current_tick.argtypes = [c_void_p]
+    F.fluid_player_get_current_tick.restype = c_int
+
+    F.fluid_player_seek.argtypes = [c_void_p, c_int]
+    F.fluid_player_seek.restype = c_int
+
+    F.fluid_player_get_total_ticks.argtypes = [c_void_p]
+    F.fluid_player_get_total_ticks.restype = c_int
+
+    F.delete_fluid_player.argtypes = [c_void_p]
+
+    F.new_fluid_file_renderer.argtypes = [c_void_p]
+    F.new_fluid_file_renderer.restype = c_void_p
+
+    #F.fluid_file_set_qual.argtypes = [c_void_p, c_double]
+
+    F.fluid_file_renderer_process_block.argtypes = [c_void_p]
+    F.fluid_file_renderer_process_block.restype = c_int
+
+    F.delete_fluid_file_renderer.argtypes = [c_void_p]
+
+
+
 
 
 class Synth:            # interface for the FluidSynth synthesizer
@@ -179,7 +267,7 @@ class Player:               # interface for the FluidSynth internal midi player
         if not renderer:
             print('failed to create file renderer')
             return
-        F.fluid_file_set_qual(renderer, c_double(quality))
+        #F.fluid_file_set_qual(renderer, c_double(quality))
         k = self.flsynth.setting_getint('audio.period-size')         # get block size (samples are rendered one block at a time)
         n = 0               # sample counter
         while self.get_status() == 1:

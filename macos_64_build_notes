@@ -9,11 +9,6 @@ Added wxpython and py2app using pip
 Will run with python3 easy_abc.py
 
 
-
-
-
-Xcode Version 11.3.1
-
 Utility programs via The ABC Plus Project http://abcplus.sourceforge.net/ :
 
    abc2midi/midi2abc/abc2abc from https://sourceforge.net/projects/abcplus/files/abcMIDI/abcmidi-20201012-osx.zip
@@ -35,23 +30,18 @@ Loads ABC file. Fails to play it with expected 'Unsupported format message.'
 
 Throws various "wx._core.wxAssertionError: C++ assertion "retval != __null" failed at /Users/robind/projects/bb2/dist-osx-py38/build/ext/wxWidgets/src/osx/carbon/graphics.cpp(116) in wxMacCreateCGColor():" errors.
 
-No music display.
+Needs PR#30 fix to prevent exception in svgrender when using wxPython 4.1 under MacOS (at least).
 
-  Warning: Traceback (most recent call last):
-    File "/Users/jon/000-jons-stuff/Music/ABC/EasyABC/EasyABC-github/music_score_panel.py", line 289, in Draw
-    self.renderer.draw(page=self.current_page, clear_background=False, dc=dc)
-    File "/Users/jon/000-jons-stuff/Music/ABC/EasyABC/EasyABC-github/svgrenderer.py", line 419, in draw
-    self.draw_svg_element(page, gc, page.root_group, False, page.base_color, {})
-    File "/Users/jon/000-jons-stuff/Music/ABC/EasyABC/EasyABC-github/svgrenderer.py", line 701, in draw_svg_element
-    self.draw_svg_element(page, dc, child, highlight, current_color, current_style.copy())
-    File "/Users/jon/000-jons-stuff/Music/ABC/EasyABC/EasyABC-github/svgrenderer.py", line 725, in draw_svg_element
-    self.set_stroke(dc, stroke, float(attr.get('stroke-width', 1.0)), attr.get('stroke-linecap', 'butt'), attr.get('stroke-dasharray', None))
-    File "/Users/jon/000-jons-stuff/Music/ABC/EasyABC/EasyABC-github/svgrenderer.py", line 600, in set_stroke
-    pen = self.renderer.CreatePen(wx.GraphicsPenInfo())
-  wx._core.wxAssertionError: C++ assertion "retval != __null" failed at /Users/robind/projects/bb2/dist-osx-py38/build/ext/wxWidgets/src/osx/carbon/graphics.cpp(116) in wxMacCreateCGColor():
+Copy fluidsynth library 2.1.2 (or was that 2.0.5?) from HomeBrew (can't upgrade without 
+upgrading Python..) 
 
+  cp /usr/local/Cellar/fluid-synth/2.0.5/lib/libfluidsynth.2.1.2.dylib .
 
+Set this up in fluidsynth.py
 
+Diagnose Segmentation fault errors by runnign with `python3 -X faulthandler`
+
+Code uses `F.fluid_file_set_qual()` but it doesn't exist as an entrypoint? Commented out for the moment.
 
 
 
