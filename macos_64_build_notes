@@ -32,8 +32,8 @@ Throws various "wx._core.wxAssertionError: C++ assertion "retval != __null" fail
 
 Needs PR#30 fix to prevent exception in svgrender when using wxPython 4.1 under MacOS (at least).
 
-Copy fluidsynth library 2.1.2 (or was that 2.0.5?) from HomeBrew (can't upgrade without 
-upgrading Python..) 
+Copy fluidsynth library 2.1.2 (or was that 2.0.5?) from HomeBrew (can't upgrade without
+upgrading Python..)
 
   cp /usr/local/Cellar/fluid-synth/2.0.5/lib/libfluidsynth.2.1.2.dylib .
 
@@ -42,6 +42,12 @@ Set this up in fluidsynth.py
 Diagnose Segmentation fault errors by runnign with `python3 -X faulthandler`
 
 Code uses `F.fluid_file_set_qual()` but it doesn't exist as an entrypoint? Commented out for the moment.
+
+Sound works.
+
+SoundFont is configurable, but it's only used at startup so changes get ignored until you quit and restart.
+A particular problem if you didn't have a soundfont to start with because MacOS fails to play anything
+under these circumstances.
 
 
 

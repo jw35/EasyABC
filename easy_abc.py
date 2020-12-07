@@ -3688,9 +3688,11 @@ class MainFrame(wx.Frame):
 
         if platform.system() == 'Windows':
             default_soundfont_path = os.environ.get('HOMEPATH', 'C:') + "\\SoundFonts\\FluidR3_GM.sf2"
+        elif platform.system() == 'Darwin':
+            default_soundfont_path = 'GeneralUser_GS_v1.471.sf2'
         else:
             default_soundfont_path = '/usr/share/sounds/sf2/FluidR3_GM.sf2'
-        
+
         soundfont_path = settings.get('soundfont_path', default_soundfont_path)
 
         if fluidsynth_available and soundfont_path and os.path.exists(soundfont_path):
