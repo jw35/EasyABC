@@ -5397,6 +5397,11 @@ class MainFrame(wx.Frame):
         x, y = self.GetPosition()
         x, y = (x + 40) % (width - 200), (y + 40) % (height - 200)
         frame.Move((x, y))
+        if platform.system() == 'Darwin':
+            dlg = wx.MessageDialog(self, _('A bug in EasyABC on MacOS means that the program will crash if you '
+                'use the red \'close\' button in the top-left corner of a window to close any window from now on.\n\n'
+                'This will discard all un-saved change in all windows without warning so please be careful!'), _('Warning for MacOS users'), wx.OK+wx.ICON_WARNING)
+            dlg.ShowModal()
         return frame
 
     def OnOpen(self, evt):

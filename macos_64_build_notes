@@ -1,5 +1,9 @@
 GitHub checkout from https://github.com/jwdj/EasyABC
 
+This is notionally 1.3.7.8, but has been for some time. A 1.3.7.8 Windows version has been released, and my late 2019 port for
+64-bit MacOS was based on an early version of this source code. My late 2020 work is based on 2020-10-10 version of the code
+which forms the Windows release.
+
 Python 3 from HomeBrew Python 3.8.5
 
 Virtual env ./venv
